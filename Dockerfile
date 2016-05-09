@@ -1,26 +1,16 @@
-FROM alpine
+FROM gliderlabs/alpine:3.3
+MAINTAINER David Tompkins <tompkins@adobe.com>
 
-ENV SPARK_VERSION=1.6.1
+ENV SPARK_VERSION=1.6.1 \
+    HADOOP_VERSION=hadoop2.6
 
-RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
-RUN echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
-RUN apk update && apk upgrade
-
-# openjdk7-jre-base contains no GUI support. see https://pkgs.alpinelinux.org/package/main/x86_64/openjdk7-jre-base
-RUN apk add openjdk7-jre-base
-#RUN apt-get install -y wget openjdk-7-jre-headless python-pip
-#RUN pip install awscli
-
-# Clean APK cache
-RUN rm -rf /var/cache/apk/*
-
-RUN wget http://mirrors.ocf.berkeley.edu/apache/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-hadoop2.6.tgz
-
-RUN tar xzf spark-$SPARK_VERSION-bin-hadoop2.6.tgz
-
-WORKDIR /spark-$SPARK_VERSION-bin-hadoop2.6
-
-# this copies in config files to run
-#COPY run-driver.sh run-driver.sh
-
-#ENTRYPOINT [ "./run-driver.sh", "bin/spark-submit" ]
+RUN echo '@testing http://alpine.gliderlabs.com/alpine/edge/testing' >> /etc/apk/repositories && \
+    apk add --no-cache openjdk7-jre-base python python3 py-pip py-certifi bash py-numpy@testing py-scipy@testing && \
+    wget http://mirrors.ocf.berkeley.edu/apache/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}.tgz && \
+    rm -rf /var/cache/apk/* && \
+    tar xzf spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}.tgz && \
+    /bin/rm -f spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}/lib/spark-examples-${SPARK_VERSION}-${HADOOP_VERSION}.0.jar && \
+    /bin/rm -f spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}/lib/spark-${SPARK_VERSION}-yarn-shuffle.jar && \
+    /bin/rm -f spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}/CHANGES.txt && \
+    /bin/rm -rf spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}/examples && \
+    rm spark-${SPARK_VERSION}-bin-${HADOOP_VERSION}.tgz
