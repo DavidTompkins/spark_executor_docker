@@ -29,7 +29,7 @@ Set the following environment variables in ``${SPARK_HOME}/conf/docker.propertie
 And set the following environment variable in ``${SPARK_HOME}/conf/docker.properties`` to the push location for the container image, which must be a remote Docker repository that is accessible from all of the Mesos slave nodes:
 * ``spark.mesos.executor.docker.image: <remote_docker_repository>/spark_executor_docker:latest``
 
-Note that the current implementation of Mesos's launch mechanism uses Docker v1, so if you choose to change the image URL to a remote Docker registry with authentication then you will need to use Docker v1 authentication.
+Note that the current implementation of Mesos's launch mechanism uses Docker v1, so if you choose to use a remote Docker registry with authentication then you will need to use Docker v1 authentication.
 
 ## License
 
