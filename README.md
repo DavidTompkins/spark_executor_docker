@@ -4,7 +4,7 @@ A Docker-based Spark executor for use with Apache Spark 1.6.1+ in cluster mode o
 
 ## Build 
 
-Dockerfiles are included for both CentOS 6.x and Alpine 3.3, and a Rakefile includes rules to build both executor container images.
+Dockerfiles are included for both CentOS 6.x and Alpine 3.3, and a Rakefile includes rules to build both executor container images. You will need to push the container images to a remote Docker repository that is accessible from all of the Mesos slave nodes.
 
 I have attempted to minimize the size of the container images, and the current sizes are:
 
@@ -21,11 +21,13 @@ Note that Spark requires a working version of libmesos.so within the executor co
 
 ## Configuration
 
-Set the following environment variables in ``${SPARK_HOME}/conf/docker.properties``:
+Set the following environment variables in ``${SPARK_HOME}/conf/docker.properties`` to the values specified below, matching the structure of the container images:
 
-* spark.mesos.executor.docker.image: local/spark_executor_docker:latest
-* spark.mesos.executor.home: /spark-1.6.1-bin-hadoop2.6
-* spark.executorEnv.MESOS_NATIVE_JAVA_LIBRARY: /usr/lib/libmesos.so
+* ``spark.mesos.executor.home: /spark-1.6.1-bin-hadoop2.6``
+* ``spark.executorEnv.MESOS_NATIVE_JAVA_LIBRARY: /usr/lib/libmesos.so``
+
+And set the following environment variable in ``${SPARK_HOME}/conf/docker.properties`` to the push location for the container image, which must be a remote Docker repository that is accessible from all of the Mesos slave nodes:
+* ``spark.mesos.executor.docker.image: <remote_docker_repository>/spark_executor_docker:latest``
 
 Note that the current implementation of Mesos's launch mechanism uses Docker v1, so if you choose to change the image URL to a remote Docker registry with authentication then you will need to use Docker v1 authentication.
 
