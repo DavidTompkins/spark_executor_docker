@@ -2,7 +2,7 @@
 
 A Docker-based Spark executor for use with Apache Spark 1.6.1+ in cluster mode on Apache Mesos 0.28.1+, including support for Scala and Python Spark applications.
 
-# Build 
+## Build 
 
 Dockerfiles are included for both CentOS 6.x and Alpine 3.3, and a Rakefile includes rules to build both executor container images.
 
