@@ -11,8 +11,13 @@ namespace :docker do
   end
 
   desc "Build Docker image"
-  task :build do
-    sh %(docker build -t #{LOCAL_IMAGE_NAME} .)
+  namespace :build do
+    task :centos do
+      sh %(docker build -t #{LOCAL_IMAGE_NAME} -f Dockerfile.centos .)
+    end
+    task :alpine do
+      sh %(docker build -t #{LOCAL_IMAGE_NAME} -f Dockerfile.alpine .)
+    end
   end
 
   task :push do

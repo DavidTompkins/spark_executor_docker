@@ -4,7 +4,8 @@ MAINTAINER David Tompkins <tompkins@adobe.com>
 ENV SPARK_VERSION=1.6.1 \
     HADOOP_VERSION=hadoop2.6
 
-RUN yum install -y java-1.7.0-openjdk python27 python3 python-pip python27-pip numpy numpy27 python3-numpy scipy scipy27 python3-scipy wget && \
+RUN rpm -Uvh http://repos.mesosphere.io/el/6/noarch/RPMS/mesosphere-el-repo-6-2.noarch.rpm && \
+    yum install -y java-1.7.0-openjdk python27 python3 python-pip python27-pip numpy numpy27 python3-numpy scipy scipy27 python3-scipy wget mesos && \
     yum clean all && \
     ( cd /usr/share/locale ; /bin/rm -rf `ls -1 /usr/share/locale | grep -v default | grep -v en_US | grep -v en` ) && \
     ( cd /usr/share/i18n/locales ; /bin/rm -rf `ls -1 /usr/share/i18n/locales | grep -v POSIX | grep -v en_US` ) && \
