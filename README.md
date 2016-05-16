@@ -23,7 +23,7 @@ Note that Spark requires a working version of libmesos.so within the executor co
 
 Set the following environment variables in ``${SPARK_HOME}/conf/docker.properties``:
 
-* spark.mesos.executor.docker.image: local/bluejay-spark-executor:latest
+* spark.mesos.executor.docker.image: local/spark_executor_docker:latest
 * spark.mesos.executor.home: /spark-1.6.1-bin-hadoop2.6
 * spark.executorEnv.MESOS_NATIVE_JAVA_LIBRARY: /usr/lib/libmesos.so
 
