@@ -1,13 +1,8 @@
 namespace :docker do
 
-  LOCAL_IMAGE_NAME = "local/bluejay-spark-executor"
-  TAG_NAME = "bluejay-spark-executor"
-  ARTIFACTORY_REPO_DEV = "docker2-adoberesearch-dev-local.dr.corp.adobe.com"
-  ARTIFACTORY_REPO_REL = "docker2-adoberesearch-release-local.dr.corp.adobe.com"
-  ARTIFACTORY_REPO_AWS_DEV = "docker2-adoberesearch-dev-local.dr-uw2.adobeitc.com"
-  ARTIFACTORY_REPO_TECHOPS_DEV = "docker2-mccp-local.dr-uw2.adobeitc.com/repositories"
-  MARATHON_MASTER_HOST = "camdenyards.corp.adobe.com"
-  MARATHON_MASTER_PORT = "8082"
+  LOCAL_IMAGE_NAME = "local/spark_executor_docker"
+  TAG_NAME = "spark_executor_docker"
+  DOCKER_REPO = "<add remote docker hostname>"
 
   desc "Remove orphaned docker images and containers"
   task :clean do
@@ -23,7 +18,7 @@ namespace :docker do
   task :push do
     image_tag = %x(docker images | grep #{LOCAL_IMAGE_NAME} | grep latest | awk '{printf "%s", $3}')
     puts "image_tag:#{image_tag}"
-    push_tag = "#{ARTIFACTORY_REPO_REL}/#{TAG_NAME}"
+    push_tag = "#{DOCKER_REPO}/#{TAG_NAME}"
     puts "push_tag:#{push_tag}"
     sh %(docker tag -f #{image_tag} #{push_tag})
     sh %(docker push #{push_tag})
